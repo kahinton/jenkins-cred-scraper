@@ -1,0 +1,29 @@
+def creds = com.cloudbees.plugins.credentials.CredentialsProvider.lookupCredentials(
+    com.cloudbees.plugins.credentials.common.StandardUsernameCredentials.class,
+    Jenkins.instance,
+    null,
+    null
+)
+
+for(c in creds) {
+  if(c instanceof com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey){
+    println(String.format("id=%s  desc=%s key=%s\n", c.id, c.description, c.privateKeySource.getPrivateKeys()))
+  }
+  if (c instanceof com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl){
+    println(String.format("id=%s  desc=%s user=%s pass=%s\n", c.id, c.description, c.username, c.password))
+  }
+}
+
+def creds2 = com.cloudbees.plugins.credentials.CredentialsProvider.lookupCredentials(
+    com.cloudbees.plugins.credentials.common.StandardCredentials.class,
+    Jenkins.instance,
+    null,
+    null
+)
+
+for (c2 in creds2) {
+  if (c2 instanceof org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl){
+    println(String.format("name=%s secret=%s desc=%s", c2.id, c2.secret, c2.description))
+  }
+}
+
